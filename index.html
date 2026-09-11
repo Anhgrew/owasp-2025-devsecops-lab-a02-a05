@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071018">
+  <meta name="description" content="A professional OWASP Top 10:2025 workshop with five safe attack-and-defense labs for A02 Security Misconfiguration and A05 Injection.">
+  <title>OWASP 2025 DevSecOps Lab — A02 + A05</title>
+  <link rel="stylesheet" href="./styles.css?v=3">
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to content</a>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <button class="mobile-menu" id="mobileMenu" aria-label="Open course navigation" aria-expanded="false">☰</button>
+    <a class="brand" href="#overview" data-view-link="overview" aria-label="Open course overview">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+      <span><b>OWASP / 2025</b><small>DEVSECOPS LAB · SESSION 02</small></span>
+    </a>
+    <div class="safety-pill"><span></span>LOCAL SIMULATION · NO EXTERNAL TARGET</div>
+    <div class="header-progress" aria-label="Course progress">
+      <span id="progressText">0 / 5 labs complete</span>
+      <div class="progress-track"><i id="progressFill"></i></div>
+    </div>
+    <button class="icon-button" id="glossaryButton" title="Open glossary (G)" aria-label="Open glossary">⌘</button>
+    <button class="icon-button" id="focusButton" title="Focus mode (F)" aria-label="Toggle focus mode">◫</button>
+  </header>
+
+  <aside class="sidebar" id="sidebar" aria-label="Course navigation">
+    <div class="sidebar-heading">
+      <small>LEARNING PATH</small>
+      <b>From weakness to control</b>
+    </div>
+    <nav>
+      <button class="nav-item active" data-view="overview">
+        <span>00</span><i></i><b>Briefing</b><small>Scope & mental model</small>
+      </button>
+      <button class="nav-item" data-view="a02">
+        <span>01</span><i class="amber"></i><b>A02</b><small>Security Misconfiguration</small>
+      </button>
+      <button class="nav-item" data-view="a05">
+        <span>02</span><i class="magenta"></i><b>A05</b><small>Injection</small>
+      </button>
+      <button class="nav-item" data-view="pipeline">
+        <span>03</span><i class="blue"></i><b>DevSecOps</b><small>Prevent · verify · detect</small>
+      </button>
+      <button class="nav-item" data-view="labs">
+        <span>04</span><i class="green"></i><b>Lab deck</b><small>5 attack / defense labs</small>
+      </button>
+      <button class="nav-item" data-view="references">
+        <span>05</span><i class="muted"></i><b>References</b><small>Primary guidance</small>
+      </button>
+    </nav>
+    <div class="sidebar-status">
+      <div class="ring" id="progressRing"><span>0%</span></div>
+      <p><b>Your progress</b><span>Saved on this device only</span></p>
+    </div>
+    <div class="shortcuts">
+      <span><kbd>G</kbd> Glossary</span>
+      <span><kbd>L</kbd> Labs</span>
+      <span><kbd>F</kbd> Focus</span>
+    </div>
+  </aside>
+
+  <main id="mainContent" class="main" tabindex="-1">
+    <section class="view active" id="view-overview" data-view-panel="overview">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow"><span>SESSION 02</span><i></i><b>A02 + A05</b></div>
+          <h1>Misconfiguration<br><em>opens the door.</em><br>Injection crosses it.</h1>
+          <p class="lede">Trace two OWASP Top 10:2025 risks from exploit mechanics to hardened code, automated evidence, and production signals.</p>
+          <div class="hero-actions">
+            <button class="primary" data-view-jump="labs">Open the lab deck <span>→</span></button>
+            <button class="secondary" data-view-jump="a02">Start with A02</button>
+          </div>
+          <div class="session-meta">
+            <span><b>90 min</b> guided workshop</span>
+            <span><b>5</b> isolated labs</span>
+            <span><b>7</b> steps per lab</span>
+          </div>
+        </div>
+        <div class="hero-console" aria-label="Course attack chain">
+          <header><span></span><span></span><span></span><b>trust-boundary.trace</b></header>
+          <div class="trace">
+            <div><small>01 / CONFIGURATION</small><b>Debug mode enabled in production</b><code>APP_DEBUG=true</code><i class="risk">EXPOSED</i></div>
+            <span>↓</span>
+            <div><small>02 / DISCOVERY</small><b>Stack trace reveals interpreter context</b><code>driver=postgres · path=/srv/app</code><i class="warn">LEAKED</i></div>
+            <span>↓</span>
+            <div><small>03 / INJECTION</small><b>Untrusted data changes query meaning</b><code>id=' OR '1'='1</code><i class="risk">EXECUTED</i></div>
+            <span>↓</span>
+            <div class="secure"><small>04 / CONTROL</small><b>Hardening + parameterization + tests</b><code>config policy → safe API → regression</code><i>BLOCKED</i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-heading compact">
+        <div><span>THE PAIRING</span><h2>Two different failures, one trust-boundary lesson</h2></div>
+        <p>A02 creates unsafe operating conditions. A05 lets data become executable syntax. Both must be addressed through repeatable engineering controls.</p>
+      </div>
+      <div class="topic-split">
+        <article class="topic-card amber-card">
+          <div class="topic-id"><span>A02</span><small>RANKED #2</small></div>
+          <div><p class="micro">SECURITY MISCONFIGURATION</p><h3>The system is deployed with unsafe security settings.</h3><p>Hardening is missing, unnecessary features remain enabled, permissions are too broad, or errors disclose implementation details.</p></div>
+          <dl><div><dt>OWASP data</dt><dd>719k occurrences</dd></div><div><dt>Mapped CWEs</dt><dd>16</dd></div><div><dt>Primary owner</dt><dd>Shared</dd></div></dl>
+          <button data-view-jump="a02">Explore A02 <span>→</span></button>
+        </article>
+        <article class="topic-card magenta-card">
+          <div class="topic-id"><span>A05</span><small>RANKED #5</small></div>
+          <div><p class="micro">INJECTION</p><h3>Untrusted data is interpreted as a command or query.</h3><p>A database, shell, browser, template engine, or directory service executes attacker-controlled structure instead of treating it only as data.</p></div>
+          <dl><div><dt>OWASP data</dt><dd>1.4m occurrences</dd></div><div><dt>Mapped CWEs</dt><dd>37</dd></div><div><dt>Primary owner</dt><dd>Engineering</dd></div></dl>
+          <button data-view-jump="a05">Explore A05 <span>→</span></button>
+        </article>
+      </div>
+
+      <div class="learning-loop">
+        <div><span>01</span><b>Mission</b><small>Define the asset and failure</small></div>
+        <i>→</i><div><span>02</span><b>Attack</b><small>Change one controlled input</small></div>
+        <i>→</i><div><span>03</span><b>Evidence</b><small>Read the response and trace</small></div>
+        <i>→</i><div><span>04</span><b>Defend</b><small>Fix the root cause</small></div>
+        <i>→</i><div><span>05</span><b>Regression</b><small>Prove the behavior stays fixed</small></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-a02" data-view-panel="a02">
+      <div class="section-heading">
+        <div><span>OWASP TOP 10:2025 · A02</span><h1>Security Misconfiguration</h1></div>
+        <p>A secure feature can still become vulnerable when its runtime, platform, cloud permissions, or operational defaults are wrong.</p>
+      </div>
+      <div class="definition-banner amber-banner">
+        <span>CORE DEFINITION</span>
+        <p>Security misconfiguration is a system, application, or cloud service configured incorrectly from a security perspective, creating an exploitable condition.</p>
+        <code>secure component + unsafe configuration = vulnerable deployment</code>
+      </div>
+      <div class="three-column">
+        <article class="metric-card"><small>PREVALENCE</small><b>100%</b><p>of tested applications had some form of misconfiguration in the OWASP 2025 dataset.</p></article>
+        <article class="metric-card"><small>ROOT CAUSE</small><b>Drift</b><p>Manual changes and environment differences erode the reviewed baseline.</p></article>
+        <article class="metric-card"><small>BEST LEVER</small><b>Automation</b><p>Build, verify, and continuously compare systems against a versioned secure baseline.</p></article>
+      </div>
+
+      <div class="subheading"><div><span>CLICK TO EXPLAIN</span><h2>How A02 appears in real systems</h2></div><p>Each pattern includes the exploit path, root cause, primary control, and useful evidence.</p></div>
+      <div class="knowledge-grid" id="a02Patterns">
+        <details><summary><span>01</span><b>Missing hardening</b><i>+</i></summary><div><p><strong>Failure:</strong> default runtime settings expose unnecessary behavior.</p><p><strong>Attack:</strong> enumerate services, endpoints, methods, banners, or sample apps that should not exist in production.</p><p><strong>Defend:</strong> minimal images, approved baselines, immutable deployment, CIS-aligned checks.</p><code>Evidence → versioned baseline + passing configuration test</code></div></details>
+        <details><summary><span>02</span><b>Unnecessary features</b><i>+</i></summary><div><p><strong>Failure:</strong> debug routes, consoles, sample apps, packages, accounts, or network listeners remain enabled.</p><p><strong>Attack:</strong> use a forgotten surface with weaker controls than the main application.</p><p><strong>Defend:</strong> least functionality; remove rather than merely hide.</p><code>Evidence → port inventory + route inventory + image SBOM</code></div></details>
+        <details><summary><span>03</span><b>Default credentials</b><i>+</i></summary><div><p><strong>Failure:</strong> shipped usernames, passwords, API keys, or setup tokens are unchanged.</p><p><strong>Attack:</strong> authenticate through an exposed administrative interface using public defaults.</p><p><strong>Defend:</strong> disable defaults, force one-time enrollment, prefer federation and short-lived identity.</p><code>Evidence → no default principal accepted after bootstrap</code></div></details>
+        <details><summary><span>04</span><b>Verbose errors</b><i>+</i></summary><div><p><strong>Failure:</strong> clients receive stack traces, file paths, queries, package versions, or internal hostnames.</p><p><strong>Attack:</strong> trigger invalid input, then use leaked context to refine a later attack.</p><p><strong>Defend:</strong> generic external response; detailed correlated log internally.</p><code>Evidence → response has error_id, not internal exception detail</code></div></details>
+        <details><summary><span>05</span><b>Missing security headers</b><i>+</i></summary><div><p><strong>Failure:</strong> browser security directives are missing or overly permissive.</p><p><strong>Attack:</strong> exploit another weakness with fewer browser-side constraints.</p><p><strong>Defend:</strong> CSP, HSTS, frame-ancestors, nosniff, and secure cookie attributes selected for the application.</p><code>Evidence → automated header assertions on every environment</code></div></details>
+        <details><summary><span>06</span><b>Public cloud resources</b><i>+</i></summary><div><p><strong>Failure:</strong> object storage, databases, snapshots, queues, or management endpoints accept unintended public access.</p><p><strong>Attack:</strong> enumerate a reachable resource and read or modify exposed data.</p><p><strong>Defend:</strong> block-public-access controls, private networking, least-privilege IAM, policy-as-code.</p><code>Evidence → effective policy test, not a console screenshot</code></div></details>
+        <details><summary><span>07</span><b>Container / Kubernetes gaps</b><i>+</i></summary><div><p><strong>Failure:</strong> privileged mode, host mounts, root execution, broad RBAC, or open services collapse isolation.</p><p><strong>Attack:</strong> turn an application compromise into node, cluster, or lateral access.</p><p><strong>Defend:</strong> Pod Security Standards, admission policy, NetworkPolicy, restricted service accounts.</p><code>Evidence → rejected unsafe manifest + runtime posture telemetry</code></div></details>
+        <details><summary><span>08</span><b>Insecure secret placement</b><i>+</i></summary><div><p><strong>Failure:</strong> long-lived keys are embedded in code, images, configuration, environment output, or pipelines.</p><p><strong>Attack:</strong> retrieve leaked material and authenticate outside the intended workload.</p><p><strong>Defend:</strong> workload identity, short-lived credentials, managed secret stores, rotation.</p><code>Evidence → no static cloud key in deployable artifact</code></div></details>
+      </div>
+
+      <div class="control-stack">
+        <div class="control-copy"><span>PREVENTION MODEL</span><h2>Make secure configuration a product, not a checklist</h2><p>One reviewed baseline should be reproducible across development, QA, and production. Credentials differ; the security posture does not.</p></div>
+        <ol>
+          <li><span>01</span><div><b>Define</b><p>Threat model, secure baseline, allowed exceptions, accountable owner.</p></div></li>
+          <li><span>02</span><div><b>Encode</b><p>IaC modules, image definitions, policy-as-code, configuration schema.</p></div></li>
+          <li><span>03</span><div><b>Verify</b><p>PR checks, admission policy, deployment smoke tests, external probes.</p></div></li>
+          <li><span>04</span><div><b>Detect drift</b><p>Inventory, posture management, runtime audit, alert with ownership.</p></div></li>
+          <li><span>05</span><div><b>Recover</b><p>Correct through the source of truth, rotate exposed secrets, retest.</p></div></li>
+        </ol>
+      </div>
+      <button class="section-cta" data-view-jump="labs" data-open-lab="misconfig-debug"><span>LAB 01</span> Exploit a production debug leak <b>→</b></button>
+    </section>
+
+    <section class="view" id="view-a05" data-view-panel="a05">
+      <div class="section-heading">
+        <div><span>OWASP TOP 10:2025 · A05</span><h1>Injection</h1></div>
+        <p>Injection happens when untrusted data reaches an interpreter and changes the meaning of a command, query, expression, or rendered document.</p>
+      </div>
+      <div class="interpreter-model">
+        <div><small>UNTRUSTED DATA</small><b>request parameter</b><code>' OR '1'='1</code></div><i>+</i>
+        <div><small>COMMAND STRUCTURE</small><b>dynamic query</b><code>"… WHERE id='" + input</code></div><i>→</i>
+        <div class="danger"><small>INTERPRETER</small><b>changes program meaning</b><code>database · shell · browser</code></div><i>→</i>
+        <div class="impact"><small>IMPACT</small><b>unauthorized action</b><code>read · modify · execute</code></div>
+      </div>
+      <div class="principle-callout"><span>PRIMARY RULE</span><h2>Keep data separate from commands and queries.</h2><p>Parameterization changes the interface: the interpreter receives command structure and data through separate channels. Validation alone is not the complete defense.</p></div>
+
+      <div class="subheading"><div><span>CLICK TO EXPLAIN</span><h2>One concept, many interpreters</h2></div><p>The syntax changes; the trust-boundary failure stays the same.</p></div>
+      <div class="knowledge-grid injection-grid" id="a05Patterns">
+        <details><summary><span>01</span><b>SQL injection</b><i>+</i></summary><div><p><strong>Interpreter:</strong> relational database.</p><p><strong>Failure:</strong> input is concatenated into SQL structure.</p><p><strong>Impact:</strong> authentication bypass, data disclosure, modification, deletion.</p><p><strong>Primary defense:</strong> prepared statements / parameterized queries.</p></div></details>
+        <details><summary><span>02</span><b>NoSQL injection</b><i>+</i></summary><div><p><strong>Interpreter:</strong> document or key-value query engine.</p><p><strong>Failure:</strong> attacker-controlled operators or query objects are accepted.</p><p><strong>Impact:</strong> filter bypass or unintended record access.</p><p><strong>Primary defense:</strong> typed input schema, allow-listed fields, safe driver API.</p></div></details>
+        <details><summary><span>03</span><b>OS command injection</b><i>+</i></summary><div><p><strong>Interpreter:</strong> operating-system shell.</p><p><strong>Failure:</strong> a string containing input is executed through a shell.</p><p><strong>Impact:</strong> arbitrary commands under the application identity.</p><p><strong>Primary defense:</strong> avoid the shell; call a safe library or executable with an argument array.</p></div></details>
+        <details><summary><span>04</span><b>ORM / HQL injection</b><i>+</i></summary><div><p><strong>Interpreter:</strong> ORM query language.</p><p><strong>Failure:</strong> trusting a framework while still concatenating query fragments.</p><p><strong>Impact:</strong> filter bypass and unauthorized data access.</p><p><strong>Primary defense:</strong> bound parameters and constrained query builders.</p></div></details>
+        <details><summary><span>05</span><b>LDAP injection</b><i>+</i></summary><div><p><strong>Interpreter:</strong> LDAP directory search filter.</p><p><strong>Failure:</strong> unescaped input changes filter logic.</p><p><strong>Impact:</strong> authentication bypass or directory disclosure.</p><p><strong>Primary defense:</strong> safe directory APIs and LDAP-filter encoding.</p></div></details>
+        <details><summary><span>06</span><b>XSS</b><i>+</i></summary><div><p><strong>Interpreter:</strong> browser HTML / JavaScript parser.</p><p><strong>Failure:</strong> untrusted data is inserted into an executable output context.</p><p><strong>Impact:</strong> actions in a victim's browser, data access, UI manipulation.</p><p><strong>Primary defense:</strong> context-aware output encoding, safe sinks, sanitization when HTML is required, CSP as defense-in-depth.</p></div></details>
+        <details><summary><span>07</span><b>Template / EL injection</b><i>+</i></summary><div><p><strong>Interpreter:</strong> server-side template or expression engine.</p><p><strong>Failure:</strong> user input becomes a template or expression, not only a value.</p><p><strong>Impact:</strong> sensitive data access and potentially server-side execution.</p><p><strong>Primary defense:</strong> fixed templates, sandboxed engine, no user-authored expressions.</p></div></details>
+        <details><summary><span>08</span><b>XPath / XML injection</b><i>+</i></summary><div><p><strong>Interpreter:</strong> XML / XPath query engine.</p><p><strong>Failure:</strong> input changes a path or predicate.</p><p><strong>Impact:</strong> filter bypass and XML data disclosure.</p><p><strong>Primary defense:</strong> parameterized XPath APIs where available, strict schema and encoding.</p></div></details>
+        <details><summary><span>09</span><b>CRLF / header injection</b><i>+</i></summary><div><p><strong>Interpreter:</strong> HTTP header parser or log processor.</p><p><strong>Failure:</strong> carriage return / line feed characters create new fields or records.</p><p><strong>Impact:</strong> response splitting, cache issues, log forging.</p><p><strong>Primary defense:</strong> framework header APIs and rejection of control characters.</p></div></details>
+        <details><summary><span>10</span><b>Code / eval injection</b><i>+</i></summary><div><p><strong>Interpreter:</strong> language runtime.</p><p><strong>Failure:</strong> attacker-controlled text reaches eval, reflection, or generated code.</p><p><strong>Impact:</strong> execution with application privileges.</p><p><strong>Primary defense:</strong> eliminate dynamic evaluation; map allowed choices to fixed functions.</p></div></details>
+      </div>
+
+      <div class="defense-hierarchy">
+        <div><span>BEST</span><b>1. Avoid the interpreter</b><p>Use a domain library instead of shell commands or dynamic evaluation.</p></div>
+        <div><span>STRONG</span><b>2. Parameterize</b><p>Separate executable structure from data through a safe API.</p></div>
+        <div><span>REQUIRED</span><b>3. Validate by allow-list</b><p>Constrain type, length, range, format, and permitted values server-side.</p></div>
+        <div><span>CONTEXTUAL</span><b>4. Encode / sanitize</b><p>Encode for the exact output context; sanitize only when rich content is required.</p></div>
+        <div><span>DEPTH</span><b>5. Limit blast radius</b><p>Least-privilege identities, segmentation, CSP, monitoring, and safe errors.</p></div>
+      </div>
+      <button class="section-cta magenta-cta" data-view-jump="labs" data-open-lab="sql-injection"><span>LAB 03</span> Break and repair a dynamic query <b>→</b></button>
+    </section>
+
+    <section class="view" id="view-pipeline" data-view-panel="pipeline">
+      <div class="section-heading">
+        <div><span>DEVSECOPS CONTROL PLANE</span><h1>Convert guidance into evidence</h1></div>
+        <p>A secure design is only useful when pull requests, deployments, and runtime signals continuously verify it.</p>
+      </div>
+      <div class="pipeline-map">
+        <article><span>01</span><small>DESIGN</small><h3>Threat model</h3><p>Map interpreters, admin surfaces, trust boundaries, and configuration ownership.</p><ul><li>Abuse cases</li><li>ASVS requirements</li><li>Secure baseline</li></ul></article>
+        <i>→</i><article><span>02</span><small>COMMIT</small><h3>Fast feedback</h3><p>Catch unsafe APIs, secrets, manifests, and settings before review completes.</p><ul><li>SAST / secrets</li><li>IaC + K8s scan</li><li>Unit security tests</li></ul></article>
+        <i>→</i><article><span>03</span><small>BUILD</small><h3>Artifact proof</h3><p>Produce a minimal, reproducible, inspected deployable artifact.</p><ul><li>SBOM + SCA</li><li>Image config scan</li><li>Provenance</li></ul></article>
+        <i>→</i><article><span>04</span><small>DEPLOY</small><h3>Policy gate</h3><p>Reject unsafe runtime intent and verify the deployed response.</p><ul><li>Admission policy</li><li>DAST / fuzzing</li><li>Header tests</li></ul></article>
+        <i>→</i><article><span>05</span><small>RUN</small><h3>Detect drift</h3><p>Watch effective configuration and behavior, then route findings to an owner.</p><ul><li>Audit logs</li><li>Posture drift</li><li>Abuse signals</li></ul></article>
+      </div>
+
+      <div class="coverage-table" role="table" aria-label="Control coverage matrix">
+        <header role="row"><span>Control</span><span>A02 signal</span><span>A05 signal</span><span>What it cannot prove</span></header>
+        <div role="row"><b>SAST</b><span>Hard-coded flags, secrets</span><span>Dangerous sinks, concatenation</span><span>Effective runtime configuration</span></div>
+        <div role="row"><b>IaC / K8s scan</b><span>Public access, privileged spec</span><span>Blast-radius permissions</span><span>Application query construction</span></div>
+        <div role="row"><b>DAST / fuzzing</b><span>Headers, errors, exposed routes</span><span>Input-induced behavior changes</span><span>All unreachable code paths</span></div>
+        <div role="row"><b>Policy as code</b><span>Rejects forbidden deployment intent</span><span>Restricts workload capability</span><span>Correct business logic</span></div>
+        <div role="row"><b>Runtime telemetry</b><span>Drift, debug route access</span><span>Error bursts, payload signatures</span><span>Absence of an unknown flaw</span></div>
+      </div>
+
+      <div class="evidence-pair">
+        <article><span>A02 RELEASE EVIDENCE</span><h3>Configuration assurance pack</h3><ul><li>Baseline version and exception owner</li><li>IaC and admission-policy results</li><li>Effective public exposure test</li><li>Header and error-contract assertions</li><li>Drift monitor linked to service ownership</li></ul></article>
+        <article><span>A05 RELEASE EVIDENCE</span><h3>Injection assurance pack</h3><ul><li>Interpreter inventory and trust boundaries</li><li>Safe API / parameterization code review</li><li>Unit tests for hostile values</li><li>Authenticated DAST and fuzzing results</li><li>Least-privilege runtime identity</li></ul></article>
+      </div>
+      <div class="alert-rule">
+        <div><span>EXAMPLE DETECTION</span><code>rate(http_5xx{route="/search"}[5m]) ↑ AND waf_injection_match ↑</code></div>
+        <p><b>Alert on behavior, not one string.</b> Correlate error rate, route, identity, source distribution, rejected policy events, and release changes. Never log raw secrets or full session tokens.</p>
+      </div>
+    </section>
+
+    <section class="view" id="view-labs" data-view-panel="labs">
+      <div class="section-heading">
+        <div><span>SAFE PRACTICE RANGE</span><h1>Five attack → defense labs</h1></div>
+        <p>All responses are deterministic browser simulations. Use the payloads only here, on localhost, or on a system you are explicitly authorized to test.</p>
+      </div>
+      <div class="lab-boundary"><span>AUTHORIZED RANGE</span><p>No network request, command, query, template, or script is executed. The lab models vulnerable behavior and defensive evidence.</p><b>SAFE</b></div>
+      <div class="lab-deck" id="labDeck">
+        <article data-lab-card="misconfig-debug"><header><span>A02 · LAB 01</span><i data-lab-status>NOT STARTED</i></header><div class="lab-glyph amber-glyph">ERR</div><h2>Production Debug Leak</h2><p>Trigger a verbose exception, collect leaked context, harden the error contract, and regression-test headers.</p><footer><span>15 min · Beginner</span><button data-launch-lab="misconfig-debug">Launch lab →</button></footer></article>
+        <article data-lab-card="kubernetes"><header><span>A02 · LAB 02</span><i data-lab-status>NOT STARTED</i></header><div class="lab-glyph amber-glyph">RBAC</div><h2>Kubernetes Identity Overreach</h2><p>Trace a mounted service-account token to cluster-admin, replace it with namespace-scoped RBAC, and gate permission drift.</p><footer><span>20 min · Intermediate</span><button data-launch-lab="kubernetes">Launch lab →</button></footer></article>
+        <article data-lab-card="sql-injection"><header><span>A05 · LAB 03</span><i data-lab-status>NOT STARTED</i></header><div class="lab-glyph magenta-glyph">SQL</div><h2>SQL Injection</h2><p>Change query meaning, observe cross-customer disclosure, parameterize the query, and replay negative tests.</p><footer><span>20 min · Intermediate</span><button data-launch-lab="sql-injection">Launch lab →</button></footer></article>
+        <article data-lab-card="command-injection"><header><span>A05 · LAB 04</span><i data-lab-status>NOT STARTED</i></header><div class="lab-glyph magenta-glyph">SH</div><h2>Command Injection</h2><p>Abuse a diagnostic wrapper, trace shell interpretation, replace it with a safe API, and constrain the runtime.</p><footer><span>20 min · Intermediate</span><button data-launch-lab="command-injection">Launch lab →</button></footer></article>
+        <article data-lab-card="nosql-injection"><header><span>A05 · LAB 05</span><i data-lab-status>NOT STARTED</i></header><div class="lab-glyph magenta-glyph">NOSQL</div><h2>NoSQL Operator Injection</h2><p>Turn credential strings into query operators, enforce a typed API boundary, and prove the database is never called.</p><footer><span>20 min · Intermediate</span><button data-launch-lab="nosql-injection">Launch lab →</button></footer></article>
+      </div>
+      <div class="completion-panel" id="completionPanel">
+        <div><small>WORKSHOP PROGRESS</small><h2 id="completionTitle">Begin with any lab</h2><p id="completionCopy">A lab completes only after its hardened regression suite passes and the knowledge check is answered correctly.</p></div>
+        <div class="completion-score"><b id="completionScore">0%</b><span>verified</span></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-references" data-view-panel="references">
+      <div class="section-heading">
+        <div><span>PRIMARY LEARNING PATH</span><h1>References & takeaways</h1></div>
+        <p>The OWASP Top 10 is an awareness document. Use ASVS, Cheat Sheets, threat models, and system-specific tests to turn it into verifiable requirements.</p>
+      </div>
+      <div class="reference-grid">
+        <a href="https://owasp.org/Top10/2025/A02_2025-Security_Misconfiguration/" target="_blank" rel="noopener"><span>OWASP TOP 10:2025</span><h2>A02 Security Misconfiguration</h2><p>Official description, prevention guidance, scenarios, data, and mapped CWEs.</p><b>Open primary source ↗</b></a>
+        <a href="https://owasp.org/Top10/2025/A05_2025-Injection/" target="_blank" rel="noopener"><span>OWASP TOP 10:2025</span><h2>A05 Injection</h2><p>Official injection definition, prevention hierarchy, scenarios, and mapped CWEs.</p><b>Open primary source ↗</b></a>
+        <a href="https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html" target="_blank" rel="noopener"><span>OWASP CHEAT SHEET</span><h2>Injection Prevention</h2><p>Technology-specific design and implementation guidance.</p><b>Open guidance ↗</b></a>
+        <a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" target="_blank" rel="noopener"><span>OWASP CHEAT SHEET</span><h2>SQL Injection Prevention</h2><p>Prepared statements, stored procedures, allow-list validation, and least privilege.</p><b>Open guidance ↗</b></a>
+        <a href="https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" target="_blank" rel="noopener"><span>OWASP CHEAT SHEET</span><h2>OS Command Injection Defense</h2><p>Architectural alternatives, parameterization, validation, and additional controls.</p><b>Open guidance ↗</b></a>
+        <a href="https://cheatsheetseries.owasp.org/cheatsheets/NoSQL_Security_Cheat_Sheet.html" target="_blank" rel="noopener"><span>OWASP CHEAT SHEET</span><h2>NoSQL Security</h2><p>Typed input handling, operator injection prevention, authentication, and least privilege.</p><b>Open guidance ↗</b></a>
+        <a href="https://owasp.org/www-project-application-security-verification-standard/" target="_blank" rel="noopener"><span>OWASP ASVS</span><h2>Verification requirements</h2><p>Use testable requirements to define coverage beyond an awareness category.</p><b>Open standard ↗</b></a>
+        <a href="https://cwe.mitre.org/" target="_blank" rel="noopener"><span>MITRE CWE</span><h2>Weakness taxonomy</h2><p>Trace an OWASP category to concrete recurring root-cause patterns.</p><b>Open taxonomy ↗</b></a>
+      </div>
+      <div class="takeaway-grid">
+        <article><span>01</span><h3>Configuration is executable intent</h3><p>Version, review, test, and monitor it with the same rigor as application code.</p></article>
+        <article><span>02</span><h3>Data must remain data</h3><p>Safe APIs and parameterization are stronger than trying to recognize every hostile string.</p></article>
+        <article><span>03</span><h3>Fix the root cause</h3><p>A WAF, secrecy of identifiers, or generic input filter is not a substitute for correct construction.</p></article>
+        <article><span>04</span><h3>Prove negative behavior</h3><p>Regression tests must show that hostile inputs fail safely while normal behavior still works.</p></article>
+      </div>
+    </section>
+
+    <section class="view lab-workspace" id="view-lab-workspace" data-view-panel="lab-workspace" aria-live="polite">
+      <div id="labWorkspace"></div>
+    </section>
+  </main>
+
+  <dialog class="glossary-dialog" id="glossaryDialog">
+    <form method="dialog"><button aria-label="Close glossary">×</button></form>
+    <div class="dialog-heading"><span>WORKSHOP REFERENCE</span><h2>Security glossary</h2><p>Short definitions for the terms used throughout this session.</p></div>
+    <div class="glossary-grid">
+      <article><b>CWE</b><p>A taxonomy of recurring software and hardware weakness types. A CWE describes a root-cause pattern, not one product vulnerability.</p></article>
+      <article><b>CVE</b><p>An identifier for a specific publicly disclosed vulnerability in a product or component.</p></article>
+      <article><b>CVSS</b><p>A severity framework describing technical characteristics. It is not a complete business-risk score.</p></article>
+      <article><b>EPSS</b><p>An estimate of the probability that a published CVE will be exploited in the wild in the next 30 days.</p></article>
+      <article><b>Hardening</b><p>Reducing attack surface and configuring a component to an approved security baseline.</p></article>
+      <article><b>Drift</b><p>Effective runtime configuration diverging from the intended, reviewed source of truth.</p></article>
+      <article><b>Parameterization</b><p>Passing command structure and untrusted data through separate channels so data cannot change command syntax.</p></article>
+      <article><b>Validation</b><p>Checking that input matches the expected type, range, length, format, and allowed values. It complements—not replaces—safe construction.</p></article>
+      <article><b>Encoding</b><p>Representing data safely for a specific output context such as HTML text, an attribute, a URL, JavaScript, or CSS.</p></article>
+      <article><b>Sanitization</b><p>Parsing and removing unsafe parts of rich content when plain context-aware encoding would destroy required markup.</p></article>
+      <article><b>Safe sink</b><p>An API that treats input as data in its context, such as textContent for browser text or a parameterized database call.</p></article>
+      <article><b>Policy as code</b><p>Versioned, testable rules that automatically accept or reject infrastructure, deployment, or runtime intent.</p></article>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js?v=3"></script>
+</body>
+</html>
