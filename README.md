@@ -5,7 +5,6 @@ A browser-only security workshop covering **A02:2025 Security Misconfiguration**
 ## Live demo
 
 - GitHub Pages: https://anhgrew.github.io/owasp-2025-devsecops-lab-a02-a05/
-- Original ChatGPT Site: https://owasp-a02-a05-devsecops-lab.nguyenanhdevops.chatgpt.site
 
 The five exercises use the same safe learning loop:
 
