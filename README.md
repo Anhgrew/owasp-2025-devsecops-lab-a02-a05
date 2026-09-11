@@ -49,7 +49,7 @@ The contract verifies that all five labs can be opened by deep link and that eve
 
 ## Deployment
 
-Pushes to `master` publish the contents of `dist` through GitHub Pages. The workflow can enable Pages automatically when repository policy permits it.
+GitHub Pages publishes the static entrypoint from `master / (root)`. The root files mirror the tested assets in `dist` so the project works without a build step or privileged workflow.
 
 ## Safety
 
